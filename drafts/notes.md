@@ -45,4 +45,5 @@ $\boxed{\mathcal{L}_{total} = \mathcal{L}_{L2} + \beta \cdot D_{KL}}$
 # UMAP 
 
 A fun thing to do is to visualize and see the distrubution of the latent space. See we can see the clustering and the web structure of each digit in the latent space.
+
 <img src="UMAP-VAE.png" width="800">
