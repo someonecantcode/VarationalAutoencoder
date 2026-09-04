@@ -21,7 +21,7 @@ class VAE(nn.Module):
         self.config = config
         assert config.hidden_dim % (2**config.hidden_layers) == 0, "not divisible by layers"
         
-        self.encode = nn.Sequential(
+        self.encoder = nn.Sequential(
             FFN(config.input_dim, config.hidden_dim),
             *[FFN(config.hidden_dim // (2 ** i), config.hidden_dim // (2 ** (i+1))) for i in range(config.hidden_layers)]
         )
@@ -32,19 +32,24 @@ class VAE(nn.Module):
         self.logvar = nn.Linear(z_dim, config.latent_channels)
 
         
-        self.decode = nn.Sequential(
+        self.decoder = nn.Sequential(
             FFN(config.latent_channels, z_dim),
             *[FFN(z_dim * (2 ** i), z_dim*(2 ** (i+1))) for i in range(config.hidden_layers)],
             nn.Linear(config.hidden_dim, config.input_dim), # proj back up
         )
-
-    def forward(self, x, targets=None, beta=1.0):
-        x = self.encode(x)
+    
+    def encode(self, x):
+        x = self.encoder(x)
         mu = self.mulayer(x)
         logvar = self.logvar(x)
         
         reparam = mu + torch.randn_like(logvar) * torch.exp(0.5 * logvar)
-        output = self.decode(reparam)
+        
+        return reparam, mu, logvar
+
+    def forward(self, x, targets=None, beta=1.0):
+        reparam, mu, logvar = self.encode(x)
+        output = self.decoder(reparam)
         
         if targets is None:
             loss = None

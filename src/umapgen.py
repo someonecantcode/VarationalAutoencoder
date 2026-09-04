@@ -12,7 +12,7 @@ def generate_umap(model, dataloader):
     with torch.no_grad():
         for batch_idx, (images, labels) in enumerate(dataloader):
             images = images.to(device)
-            mu = model.mulayer(model.encode(images))
+            _, mu, _ = model.encode(images)
             
             latents.append(mu.cpu().numpy())
             digits.append(labels.cpu().numpy())

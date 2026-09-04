@@ -103,7 +103,7 @@ def main():
     sampled_latents = torch.randn((total_samples, VAEConfig().latent_channels), device=device)
 
     with torch.no_grad():
-        output = torch.sigmoid(model.decode(sampled_latents))
+        output = torch.sigmoid(model.decoder(sampled_latents))
         # plt.imshow(output[0].cpu().detach().reshape(28, 28).numpy(), cmap="gray") or plt.imsave
         save_image(output.view(total_samples, 1, 28, 28), "sampled.png", nrow=8)
         

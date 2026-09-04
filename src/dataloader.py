@@ -26,4 +26,4 @@ def getDataLoader(split, batch_size):
     
     print(x_train.shape)
     print(f"1 epoch = {10000 / batch_size} batches")
-    return DataLoader(train_ds, batch_size=batch_size, shuffle=True, )
+    return DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=True)
