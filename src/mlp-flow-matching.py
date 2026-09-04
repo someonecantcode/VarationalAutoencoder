@@ -72,6 +72,7 @@ class MLP(nn.Module):
 
 
 batch_size = 256
+lr = 6e-3
 train_loader = getDataLoader('test', batch_size=batch_size)
 
 # -----------------------------------------------
@@ -79,7 +80,7 @@ vae = VAE(VAEConfig).to(device=device)
 
 import os
 ckpt_path = "vaemnist_30001.pt"
-if os.path.exists():
+if os.path.exists(ckpt_path):
     vae.load_state_dict(torch.load(ckpt_path, weights_only=True)['model'])
 else:
     print("pretrained vae not found, training")
@@ -91,7 +92,7 @@ for child in vae.children():
         params.requires_grad = False
 
 model = MLP(layers=4, channels_data=VAEConfig.latent_channels, channels=512).to(device=device)
-optim = torch.optim.AdamW(model.parameters(), lr=3e-3, fused=True)
+optim = torch.optim.AdamW(model.parameters(), lr=lr, fused=True)
         
 # -----------------------------------------------
 

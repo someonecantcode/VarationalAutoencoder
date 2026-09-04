@@ -17,7 +17,19 @@ python train.py
 
 In depth breakdown in [`drafts/notes.md`](drafts/notes.md) and Jupyter Notebook in [`drafts/vae.ipynb`](drafts/vae.ipynb).
 
-Flow Matching application example with MLP+VAE in [`src/mlp-flow-matching.py`](src/mlp-flow-matching.py) and notes in [`drafts/diffusion-notes.md`](drafts/diffusion-notes.md)
+## Flow Matching
+
+![image](sampledMLP.png)
+
+Flow Matching application example with MLP and VAE in [`src/mlp-flow-matching.py`](src/mlp-flow-matching.py) and in-depth notes in [`drafts/diffusion-notes.md`](drafts/diffusion-notes.md). Jupyter Notebook flow matching in [`src/flow-matching.ipynb`](src/flow-matching.ipynb).
+
+To run and train:
+```bash
+cd src
+python mlp-flow-matching.py
+```
+
+
 
 ## References
 
