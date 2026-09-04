@@ -62,8 +62,7 @@ def test_eval(model, dataloader):
     return total_loss
 # =========================================================================
 
-def main():
-    model = VAE(VAEConfig()).to(device)
+def train(model):
     step = load_checkpoint(ckpt_path="vaemnist_30001.pt", model=model)
     optimizer = torch.optim.AdamW(model.parameters(), lr=model.config.lr)
 
@@ -91,17 +90,15 @@ def main():
                 print(f"step: {step} | total loss: {loss.item():.2f} bce {recon_loss.item():.2f} kl {kl_loss.item():.2f} | test: {test_eval(model=model, dataloader=test_loader):.2f} | lr: {lr:.6f}")
                 
             step += 1
-
     save_checkpoint(raw_model=model, step=step)
-
-    # ----------------------------------------------------
+   
+def sample(model):
     # Sample Results
-    # import matplotlib.pyplot as plt
     from torchvision.utils import save_image
 
     total_samples = 64
     sampled_latents = torch.randn((total_samples, VAEConfig().latent_channels), device=device)
-
+    test_loader = getDataLoader('test', batch_size=VAEConfig().batch_size)
     with torch.no_grad():
         output = torch.sigmoid(model.decoder(sampled_latents))
         # plt.imshow(output[0].cpu().detach().reshape(28, 28).numpy(), cmap="gray") or plt.imsave
@@ -110,8 +107,12 @@ def main():
 
     # UMAP Results
     from umapgen import generate_umap
-    generate_umap(model, test_loader)
+    generate_umap(model, test_loader) 
     
-
+def main():
+    model = VAE(VAEConfig()).to(device)
+    train(model)
+    sample(model)
+    
 if __name__ == "__main__":
     main()

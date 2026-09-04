@@ -16,6 +16,9 @@ python train.py
 ```
 
 In depth breakdown in [`drafts/notes.md`](drafts/notes.md) and Jupyter Notebook in [`drafts/vae.ipynb`](drafts/vae.ipynb).
+
+Flow Matching application example with MLP+VAE in [`src/mlp-flow-matching.py`](src/mlp-flow-matching.py) and notes in [`drafts/diffusion-notes.md`](drafts/diffusion-notes.md)
+
 ## References
 
 Kingma, Diederik P., and Max Welling. “An Introduction to Variational Autoencoders.” Foundations and Trends® in Machine Learning, vol. 12, no. 4, 2019, pp. 307–92, <https://doi.org/10.1561/2200000056>.
