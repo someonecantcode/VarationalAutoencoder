@@ -60,7 +60,9 @@ class MLP(nn.Module):
 
     def forward(self, x, t, y):
         x = self.in_projection(x)
-        y = self.label_embed(self.dropout_classification(y))
+        if self.training:
+            y = self.dropout_classification(y)
+        y = self.label_embed(y)
         
         t = self.gen_t_embedding(t)
         t = self.t_projection(t)
@@ -117,7 +119,7 @@ for epoch in range(10):
         
         pbar.set_postfix(loss=loss.item())
 model.eval()
-
+torch.save(model.state_dict(), "mlp10epochs.pt")
 # -----------------------------------------------
 # Sampling 
 from torchvision.utils import save_image
